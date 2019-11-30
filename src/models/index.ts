@@ -11,9 +11,4 @@ File.hasMany(Clipping, { as: 'Clippings' });
 
 sequelize.sync();
 
-export {
-    User,
-    Clipping,
-    File,
-    sequelize,
-};
+export { User, Clipping, File, sequelize };

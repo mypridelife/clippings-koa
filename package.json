@@ -10,13 +10,12 @@
     "watch": "npm run tslint && npm run watch-ts",
     "watch-ts": "tsc -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "bash deploy.sh",
-    "url": "https://jenkins.guoyiheng.xyz/job/clippings-server/build?token=womeizaiting"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "@koa/cors": "^2.2.2",
     "bcryptjs": "^2.4.3",
+    "crawler": "^1.2.1",
     "jsonwebtoken": "^8.3.0",
     "koa": "^2.6.1",
     "koa-body": "^4.0.4",
@@ -27,6 +26,7 @@
     "koa-router": "^7.4.0",
     "koa-static2": "^0.1.8",
     "mysql2": "^1.6.1",
+    "nodemailer": "^6.3.1",
     "path-to-regexp": "^2.4.0",
     "sequelize": "^5.21.1"
   },

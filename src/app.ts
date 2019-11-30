@@ -21,27 +21,49 @@ app.use(logger());
 
 app.use(KoaStatic('assets', path.resolve(__dirname, '../assets')));
 app.use(
-    koaJwt({
-        secret: 'jwtSecret'
-    }).unless(
-        // 只要不需要token, 写到下面
-        {
-            path: [
-                /\/assets\/uploads\/.*/,
-                pathToRegexp('/api/user/login'),
-                pathToRegexp('/api/user/register'),
-                pathToRegexp('/api/base/options')
-            ]
-        } // 数组中的路径不需要通过jwt验证
-    )
+  koaJwt({
+    secret: 'jwtSecret'
+  }).unless(
+    // ctx => {
+    //     let keys = []
+    //     if (/^\/api/.test(ctx.path)) {
+    //         if (
+    //             pathToRegexp(
+    //                 [
+    //                     '/assets',
+    //                     '/api/user/login',
+    //                     '/api/user/register',
+    //                     '/api/base/options'
+    //                 ],
+    //                 keys
+    //             ).test(ctx.path)
+    //         ) {
+    //             return {
+    //                 path: RegExp[...keys]
+    //             }
+    //         }
+    //     }
+    // }
+
+    // 只要不需要token, 写到下面
+    {
+      path: [
+        /\/assets\/uploads\/.*/,
+        pathToRegexp('/api/user/login'),
+        pathToRegexp('/api/user/register'),
+        pathToRegexp('/api/user/activation'),
+        pathToRegexp('/api/base/options')
+      ]
+    } // 数组中的路径不需要通过jwt验证
+  )
 );
 
 app.use(async (ctx, next) => {
-    const start: any = new Date();
-    await next();
-    const end: any = new Date();
-    const ms: any = end - start;
-    console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
+  const start: any = new Date();
+  await next();
+  const end: any = new Date();
+  const ms: any = end - start;
+  console.log(`${start} - ${ctx.method} ${ctx.url} - ${ms}ms`);
 });
 app.use(router.routes()).use(router.allowedMethods());
 

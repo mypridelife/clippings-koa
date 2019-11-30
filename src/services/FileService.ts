@@ -1,5 +1,4 @@
 import { File, User } from '../models';
-import sequelize from '../config/init-db';
 
 // 增
 const createOne = async (params: object) => File.create(params);

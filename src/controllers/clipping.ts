@@ -11,7 +11,8 @@ import {
     countAllFavorite,
     findAllClippingsByBook,
     countAllClippingsBybook,
-    findAllBook
+    findAllBook,
+    searchNorAorC
 } from '../services/ClippingService';
 
 export default class ClippingController {
@@ -111,7 +112,15 @@ export default class ClippingController {
                 if (userId !== clipping.userId || clipping.status === -1) {
                     ctx.body = statusCode.SUCCESS('标注不存在');
                 } else {
-                    ctx.body = statusCode.SUCCESS('查询成功', clipping);
+                    const clippingList = [clipping];
+                    const data = {
+                        currentPage: 1,
+                        count: 10,
+                        total: 1,
+                        clippingList
+                    };
+
+                    ctx.body = statusCode.SUCCESS('查询成功', data);
                 }
             } catch (error) {
                 ctx.body = statusCode.ERROR_SYSTEM(
@@ -175,7 +184,7 @@ export default class ClippingController {
     // 按照书名查询
     public static async findAllClippingsByBook(ctx) {
         const userId = ctx.user.id;
-        const { currentPage = 1, count = 10, bookName} = ctx.request.body;
+        const { currentPage = 1, count = 10, bookName } = ctx.request.body;
         const offset = (currentPage - 1) * count;
 
         if (!bookName) {
@@ -207,8 +216,41 @@ export default class ClippingController {
     public static async findAllBook(ctx) {
         const userId = ctx.user.id;
         try {
-            const baseList = await findAllBook(userId);
-            ctx.body = statusCode.SUCCESS('查询成功', baseList);
+            const [baseList, count] = await Promise.all([
+                findAllBook(userId),
+                countAll(userId)
+            ]);
+            const all = {
+                bookName: '全部',
+                count: count
+            };
+            baseList.unshift(all);
+            ctx.body = statusCode.SUCCESS('查询成功', { baseList });
+        } catch (error) {
+            ctx.body = statusCode.ERROR_SYSTEM(
+                error.message || '查询失败：服务器内部错误！'
+            );
+        }
+    }
+    // 模糊查询
+    public static async searchNorAorC(ctx) {
+        const userId = ctx.user.id;
+        const { search } = ctx.request.body;
+        const count = 10;
+
+        if (!search) {
+            ctx.body = statusCode.ERROR_PARAMETER(
+                '查询失败：参数错误！'
+            );
+            return;
+        }
+        try {
+            const baseList = await searchNorAorC(userId, count, search);
+            const data = {
+                baseList
+            };
+
+            ctx.body = statusCode.SUCCESS('查询成功', data);
         } catch (error) {
             ctx.body = statusCode.ERROR_SYSTEM(
                 error.message || '查询失败：服务器内部错误！'

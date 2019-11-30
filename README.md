@@ -1,9 +1,5 @@
 # clippings-server
 
-## 前端
-
-[项目链接](https://github.com/mypridelife/clippings-vue): https://github.com/mypridelife/clippings-vue
-
 ## start
 
 - 下载源码

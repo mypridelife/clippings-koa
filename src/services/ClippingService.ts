@@ -1,4 +1,5 @@
 import { Clipping, User } from '../models';
+import sequelize from '../config/init-db';
 
 // 增加一条标注
 const createClipping = async (params: object) => Clipping.create(params);
@@ -92,13 +93,20 @@ const countAllClippingsBybook = async (userId: number, bookName: String) =>
             bookName,
         }
     });
-const findAllBook = async (userId: number) =>
-    Clipping.find({
-        where: {
-            userId,
-            status: 1,
-        }
-    });
+const findAllBook = async (userId: number) => {
+    const bookNameList = sequelize.query(`SELECT bookName, count(bookName) as count FROM clippings where userId=${userId} and status=1 group by bookName `, { type: sequelize.QueryTypes.SELECT });
+    return bookNameList;
+};
+
+// 模糊搜索，名称，作者，内容
+const searchNorAorC = async (
+    userId: number,
+    count: number,
+    search: string, ) => {
+    const baseList = sequelize.query(`SELECT *  FROM clippings where content like "%${search}%" and status= 1 and userId = ${userId} limit ${count} `, { type: sequelize.QueryTypes.SELECT });
+    return baseList;
+};
+
 
 export {
     createClipping,
@@ -112,4 +120,5 @@ export {
     findAllClippingsByBook,
     countAllClippingsBybook,
     findAllBook,
+    searchNorAorC,
 };
