@@ -4,7 +4,7 @@
   "description": "clippings-server",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/app.ts",
+    "dev": "nodemon src/app.ts",
     "build": "npm run tslint && npm run build-ts",
     "build-ts": "tsc",
     "watch": "npm run tslint && npm run watch-ts",
@@ -16,6 +16,7 @@
     "@koa/cors": "^2.2.2",
     "bcryptjs": "^2.4.3",
     "crawler": "^1.2.1",
+    "crypto-js": "^4.0.0",
     "jsonwebtoken": "^8.3.0",
     "koa": "^2.6.1",
     "koa-body": "^4.0.4",
