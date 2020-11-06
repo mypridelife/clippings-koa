@@ -1,12 +1,12 @@
 // import * as Sequelize from 'sequelize';
 const Sequelize = require('sequelize');
-var CryptoJS = require('crypto-js');
-var key = require('/www/kindle-key.js');
+const CryptoJS = require('crypto-js');
+const key = require('/www/kindle-key.js');
 
-var encryptText =
+const encryptText =
   'U2FsdGVkX1+ZlKwtn8vQUd9OeQ3uVx+OKzyXg38hwG7dP2km/4kGTDYvRmJzi9eD';
-var bytes = CryptoJS.AES.decrypt(encryptText, key);
-var originalPassword = bytes.toString(CryptoJS.enc.Utf8);
+const bytes = CryptoJS.AES.decrypt(encryptText, key);
+const originalPassword = bytes.toString(CryptoJS.enc.Utf8);
 
 const sequelize = new Sequelize('xjbq', 'xjbqName', originalPassword, {
   host: '106.75.169.146',
