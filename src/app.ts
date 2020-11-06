@@ -22,7 +22,7 @@ app.use(logger());
 app.use(KoaStatic('assets', path.resolve(__dirname, '../assets')));
 app.use(
   koaJwt({
-    secret: 'jwtSecret'
+    secret: 'jwtSecret',
   }).unless(
     // ctx => {
     //     let keys = []
@@ -52,8 +52,8 @@ app.use(
         pathToRegexp('/api/user/login'),
         pathToRegexp('/api/user/register'),
         pathToRegexp('/api/user/activation'),
-        pathToRegexp('/api/base/options')
-      ]
+        pathToRegexp('/api/base/options'),
+      ],
     } // 数组中的路径不需要通过jwt验证
   )
 );
@@ -67,6 +67,6 @@ app.use(async (ctx, next) => {
 });
 app.use(router.routes()).use(router.allowedMethods());
 
-app.listen(8000);
+app.listen(43965);
 
 console.log('server start at http://localhost:8000/');
