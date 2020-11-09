@@ -6,5 +6,5 @@ npm run build #打包
 
 cd dist
 
-pm2 start app
+pm2 start app.js
 pm2 restart app
